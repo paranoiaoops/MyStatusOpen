@@ -14,7 +14,7 @@ let Home = {
     render : async () => {
 
         let data = [];
-        await getAll(db, DB_STORE_NAME).then((received)=> {
+        await getAll(globalThis.db, DB_STORE_NAME).then((received)=> {
             data = received;
         });
 

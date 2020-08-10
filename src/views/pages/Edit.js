@@ -5,7 +5,7 @@ let Edit = {
         let request = Utils.parseRequestURL();
 
         let data = {};
-        await getByKey(db, DB_STORE_NAME, Number(request.id)).then((received)=> {
+        await getByKey(globalThis.db, DB_STORE_NAME, Number(request.id)).then((received)=> {
             data = received;
         });
 

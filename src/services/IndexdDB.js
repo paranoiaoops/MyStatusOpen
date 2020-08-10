@@ -28,7 +28,7 @@ function openDb() {
         // ガベージコレクションの問題を避けるため、結果を得る際は
         // "req" より "this" を使用する方がよい
         // db = req.result;
-        db = this.result;
+        globalThis.db = this.result;
         console.log("openDb DONE");
     };
     req.onerror = function (evt) {
