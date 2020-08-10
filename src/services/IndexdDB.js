@@ -42,13 +42,13 @@ function openDb() {
             DB_STORE_NAME, { keyPath: 'id', autoIncrement: true });
 
         // sample
-        store.transaction.oncomplete = function(event) {
-            // 新たに作成した objectStore に値を保存します。
-            let customerObjectStore = db2.transaction(DB_STORE_NAME, "readwrite").objectStore(DB_STORE_NAME);
-            for (let i in sampleData) {
-                customerObjectStore.add(sampleData[i]);
-            }
-        };
+        // store.transaction.oncomplete = function(event) {
+        //     // 新たに作成した objectStore に値を保存します。
+        //     let customerObjectStore = db2.transaction(DB_STORE_NAME, "readwrite").objectStore(DB_STORE_NAME);
+        //     for (let i in sampleData) {
+        //         customerObjectStore.add(sampleData[i]);
+        //     }
+        // };
     };
 }
 
