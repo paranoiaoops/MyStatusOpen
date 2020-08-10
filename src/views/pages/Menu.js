@@ -1,11 +1,6 @@
 let Menu  = {
     render : async () => {
 
-        let data = [];
-        await getAll(globalThis.db, DB_STORE_NAME).then((received)=> {
-            data = received;
-        });
-
         let view =  /*html*/`
         <article class="page-menu box-border">
             <div><a href="#/">スキル一覧を表示</a></div>
