@@ -20,6 +20,8 @@ self.addEventListener('install', (event) => {
                 './views/pages/Menu.js',
                 './views/pages/Register.js',
                 './design.css',
+                './polyfill/dialog-polyfill.css',
+                './polyfill/dialog-polyfill.js'
             ]);
         })
     );

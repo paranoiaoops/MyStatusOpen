@@ -105,7 +105,9 @@ async function addExp(id) {
     data.exp = data.exp + 1;
     await putData(db, DB_STORE_NAME, data).then(() => {
         if ((data.exp % data.require_exp_point) == 0 ){
-            document.getElementById("information-dialog").showModal();
+            let dialog = document.querySelector('dialog');
+            dialogPolyfill.registerDialog(dialog);
+            dialog.showModal();
             document.getElementById("information").innerText = `スキル"${data.title}"のLVが上がりました。\n次のレベルには あと ${data.require_exp_point} の経験が必要です。`
         } else {
             dispatchHashchange();
@@ -114,7 +116,9 @@ async function addExp(id) {
 }
 
 let showDialog = async (id) => {
-    document.getElementById("delete-dialog").showModal();
+    let dialog = document.querySelector('dialog');
+    dialogPolyfill.registerDialog(dialog);
+    dialog.showModal();
     document.getElementById("exec-delete").addEventListener('click', async () => {
         await deleteData(db, DB_STORE_NAME, Number(id)).then(() => {
             dispatchHashchange();
