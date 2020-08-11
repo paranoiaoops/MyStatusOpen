@@ -1,5 +1,5 @@
 const DB_NAME = "MyStatus";
-const DB_STORE_NAME = "status";
+globalThis.DB_STORE_NAME = "status";
 const DB_VERSION = 1;
 
 let request;
@@ -39,7 +39,7 @@ function openDb() {
         console.log("openDb.onupgradeneeded");
         let db2 = evt.target.result;
         let store = evt.target.result.createObjectStore(
-            DB_STORE_NAME, { keyPath: 'id', autoIncrement: true });
+            globalThis.DB_STORE_NAME, { keyPath: 'id', autoIncrement: true });
 
         // sample
         // store.transaction.oncomplete = function(event) {
@@ -99,11 +99,11 @@ async function deleteData(db, storeName, key) {
 
 async function addExp(id) {
     let data = {};
-    await getByKey(db, DB_STORE_NAME, Number(id)).then((received)=> {
+    await getByKey(globalThis.db, globalThis.DB_STORE_NAME, Number(id)).then((received)=> {
         data = received;
     });
     data.exp = data.exp + 1;
-    await putData(db, DB_STORE_NAME, data).then(() => {
+    await putData(globalThis.db, globalThis.DB_STORE_NAME, data).then(() => {
         if ((data.exp % data.require_exp_point) == 0 ){
             let dialog = document.querySelector('dialog');
             dialogPolyfill.registerDialog(dialog);
@@ -120,7 +120,7 @@ let showDialog = async (id) => {
     dialogPolyfill.registerDialog(dialog);
     dialog.showModal();
     document.getElementById("exec-delete").addEventListener('click', async () => {
-        await deleteData(db, DB_STORE_NAME, Number(id)).then(() => {
+        await deleteData(globalThis.db, globalThis.DB_STORE_NAME, Number(id)).then(() => {
             dispatchHashchange();
         })
     });

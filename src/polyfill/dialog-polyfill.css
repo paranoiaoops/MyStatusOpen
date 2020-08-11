@@ -10,8 +10,8 @@ dialog {
   margin: auto;
   border: solid;
   padding: 1em;
-  background: white;
-  color: black;
+  background: black;
+  color: white;
   display: block;
 }
 

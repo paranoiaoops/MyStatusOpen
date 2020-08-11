@@ -1,7 +1,7 @@
 let List = {
     render : async () => {
         let data = [];
-        await getAll(globalThis.db, DB_STORE_NAME).then((received)=> {
+        await getAll(globalThis.db, globalThis.DB_STORE_NAME).then((received)=> {
             data = received;
         });
 

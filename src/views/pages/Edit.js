@@ -5,7 +5,7 @@ let Edit = {
         let request = Utils.parseRequestURL();
 
         let data = {};
-        await getByKey(globalThis.db, DB_STORE_NAME, Number(request.id)).then((received)=> {
+        await getByKey(globalThis.db, globalThis.DB_STORE_NAME, Number(request.id)).then((received)=> {
             data = received;
         });
 
@@ -45,9 +45,11 @@ let Edit = {
                     exp : Number(document.getElementById("exp").value)
                 }
 
-                putData(db, DB_STORE_NAME, registerData).then(() => {
+                putData(globalThis.db, globalThis.DB_STORE_NAME, registerData).then(() => {
+                    let dialog = document.querySelector("dialog");
+                    dialogPolyfill.registerDialog(dialog);
                     document.getElementById("information").innerText = `スキル"${registerData.title}"の編集が完了しました。`;
-                    document.getElementById("information-dialog").showModal();
+                    dialog.showModal();
                 });
             }
         }, false);

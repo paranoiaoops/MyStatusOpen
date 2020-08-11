@@ -31,9 +31,11 @@ let Register = {
                     exp : 0
                 }
 
-                putData(db, DB_STORE_NAME, registerData).then(() => {
+                putData(globalThis.db, globalThis.DB_STORE_NAME, registerData).then(() => {
+                    let dialog = document.querySelector("dialog");
+                    dialogPolyfill.registerDialog(dialog);
                     document.getElementById("information").innerText = `スキル"${registerData.title}"を習得しました。`;
-                    document.getElementById("information-dialog").showModal();
+                    dialog.showModal();
                     document.getElementById("dialog-close").addEventListener('click', () => {
                         dispatchHashchange();
                     });
