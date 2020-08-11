@@ -21,42 +21,43 @@ let sampleData = [
     }
 ]
 
-function openDb() {
-    console.log("openDb ...");
-    let req = indexedDB.open(DB_NAME, DB_VERSION);
-    req.onsuccess = function (evt) {
-        // ガベージコレクションの問題を避けるため、結果を得る際は
-        // "req" より "this" を使用する方がよい
-        // db = req.result;
-        globalThis.db = this.result;
-        console.log("openDb DONE");
-    };
-    req.onerror = function (evt) {
-        console.error("openDb:", evt.target.errorCode);
-    };
+async function openDb() {
+    return new Promise (function(resolve) {
+        console.log("openDb ...");
+        let req = indexedDB.open(DB_NAME, DB_VERSION);
+        req.onsuccess = function (evt) {
+            // ガベージコレクションの問題を避けるため、結果を得る際は
+            // "req" より "this" を使用する方がよい
+            // db = req.result;
+            globalThis.db = this.result;
+            console.log("openDb DONE");
+            return resolve();
+        };
+        req.onerror = function (evt) {
+            console.error("openDb:", evt.target.errorCode);
+        };
 
-    req.onupgradeneeded = function (evt) {
-        console.log("openDb.onupgradeneeded");
-        let db2 = evt.target.result;
-        let store = evt.target.result.createObjectStore(
-            globalThis.DB_STORE_NAME, { keyPath: 'id', autoIncrement: true });
+        req.onupgradeneeded = function (evt) {
+            console.log("openDb.onupgradeneeded");
+            let db2 = evt.target.result;
+            let store = evt.target.result.createObjectStore(
+                globalThis.DB_STORE_NAME, {keyPath: 'id', autoIncrement: true});
 
-        // sample
-        // store.transaction.oncomplete = function(event) {
-        //     // 新たに作成した objectStore に値を保存します。
-        //     let customerObjectStore = db2.transaction(DB_STORE_NAME, "readwrite").objectStore(DB_STORE_NAME);
-        //     for (let i in sampleData) {
-        //         customerObjectStore.add(sampleData[i]);
-        //     }
-        // };
-    };
+            // sample
+            // store.transaction.oncomplete = function(event) {
+            //     // 新たに作成した objectStore に値を保存します。
+            //     let customerObjectStore = db2.transaction(DB_STORE_NAME, "readwrite").objectStore(DB_STORE_NAME);
+            //     for (let i in sampleData) {
+            //         customerObjectStore.add(sampleData[i]);
+            //     }
+            // };
+        };
+    })
 }
-
-openDb();
 
 async function getAll(db, storeName) {
     return new Promise((resolve, reject) => {
-        const tr = db.transaction([storeName]);
+        const tr = globalThis.db.transaction([storeName]);
         const store = tr.objectStore(storeName);
         // 全件取得
         const request = store.getAll();
@@ -67,7 +68,7 @@ async function getAll(db, storeName) {
 
 async function putData(db, storeName, value) {
     return new Promise((resolve, reject) => {
-        const tr = db.transaction([storeName], "readwrite");
+        const tr = globalThis.db.transaction([storeName], "readwrite");
         const store = tr.objectStore(storeName);
         // ここでデータを追加
         const request = store.put(value);
@@ -79,7 +80,7 @@ async function putData(db, storeName, value) {
 
 async function getByKey (db, storeName, key) {
     return new Promise((resolve, reject) => {
-        const tr = db.transaction([storeName]);
+        const tr = globalThis.db.transaction([storeName]);
         const store = tr.objectStore(storeName);
         const request = store.get(key);
         request.onsuccess = (ev) => resolve(request.result);
@@ -89,7 +90,7 @@ async function getByKey (db, storeName, key) {
 
 async function deleteData(db, storeName, key) {
     return new Promise((resolve, reject) => {
-        const tr = db.transaction([storeName], "readwrite");
+        const tr = globalThis.db.transaction([storeName], "readwrite");
         const store = tr.objectStore(storeName);
         const request = store.delete(key);
         request.onsuccess = (ev) => resolve();

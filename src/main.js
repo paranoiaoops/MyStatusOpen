@@ -21,6 +21,9 @@ const routes = {
 
 const router = async () => {
 
+    if (globalThis.db == undefined) {
+        await openDb();
+    }
     const content = null || document.getElementById('page-contents');
     const footer = null || document.getElementById('page-footer');
 
