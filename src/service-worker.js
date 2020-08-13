@@ -7,22 +7,7 @@ self.addEventListener('install', (event) => {
     // キャッシュ完了までインストールが終わらないように待つ
     event.waitUntil(
         caches.open('v1').then((cache) => {
-            return cache.addAll([
-                './index.html',
-                './main.js',
-                './services/IndexdDB.js',
-                './services/Utils.js',
-                './views/components/BottomMenu.js',
-                './views/pages/Delete.js',
-                './views/pages/Edit.js',
-                './views/pages/Home.js',
-                './views/pages/List.js',
-                './views/pages/Menu.js',
-                './views/pages/Register.js',
-                './design.css',
-                './polyfill/dialog-polyfill.css',
-                './polyfill/dialog-polyfill.js'
-            ]);
+            return cache.addAll("/paranoiaoops.github.io/MyStatusOpen/");
         })
     );
 });
