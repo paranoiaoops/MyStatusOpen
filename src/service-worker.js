@@ -7,7 +7,7 @@ self.addEventListener('install', (event) => {
     // キャッシュ完了までインストールが終わらないように待つ
     event.waitUntil(
         caches.open('v1').then((cache) => {
-            return cache.addAll("/paranoiaoops.github.io/MyStatusOpen/");
+            return cache.addAll(["/paranoiaoops.github.io/MyStatusOpen/src/"]);
         })
     );
 });
